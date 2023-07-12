@@ -12,7 +12,7 @@ endif()
 project ("MockDataServer")
 
 # Add source to this project's executable.
-add_executable (MockDataServer "MockDataServer.cpp" "MockDataServer.h")
+add_executable (MockDataServer "MockDataServer.cpp" )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET MockDataServer PROPERTY CXX_STANDARD 20)
