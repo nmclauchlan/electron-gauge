@@ -1,23 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import Gauge from './Components/Gauge';
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div>
+          <Gauge value="10" label="knots"/>
+        </div>
+        <div>
+          <Gauge value="10" label="altitude"/>
+        </div>
     </div>
   );
 }
