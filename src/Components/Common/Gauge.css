@@ -1,0 +1,26 @@
+.h1 {
+    stroke: 3px green;
+}
+
+.indicator {
+    position: relative;
+    top: -50px;
+    left: 35px;
+    height: 5px;
+    width: 100px;
+    transform-origin: 100% 50%;
+    border-radius: 5px;
+}
+
+svg {
+    position: relative;
+    z-index: 0;
+    top: 50px
+}
+
+.label {
+    position: relative;
+    font-size: 25px;
+    z-index: 20;
+    bottom: 20px;
+}

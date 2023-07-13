@@ -13,12 +13,18 @@
 #define BUFLEN 512
 #define SEND_RATE 30
 
+#define MIN_SPEED 0
+#define MAX_SPEED 100
+
+#define MIN_ALTITUDE -100
+#define MAX_ALTITUDE 200
+
 int main() {
     WSADATA wsa;
     SOCKET s;
     struct sockaddr_in server;
     char buf[BUFLEN];
-    int knots = 23, altitude = 45; // Starting values
+    int speed = 200, altitude = 1000; // Starting values
 
     // Initialize winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -48,11 +54,27 @@ int main() {
     while (true) {
 
         // Randoming knots/altitude data
-        knots += rand() % 2 ? 1 : -1;
+        speed += rand() % 2 ? 1 : -1;
         altitude += rand() % 2 ? 1 : -1;
 
+        if (speed < MIN_SPEED) {
+            speed = MIN_SPEED;
+        }
+
+        if (speed > MAX_SPEED) {
+            speed = MAX_SPEED;
+        }
+
+        if (altitude < MIN_ALTITUDE) {
+            altitude = MIN_ALTITUDE;
+        }
+
+        if (altitude > MAX_ALTITUDE) {
+            altitude = MAX_ALTITUDE;
+        }
+
         // Format the message
-        sprintf(buf, "%d,%d", knots, altitude);
+        sprintf(buf, "%d,%d", speed, altitude);
 
         // Send the message to server
         if (sendto(s, buf, strlen(buf), 0, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
@@ -61,7 +83,7 @@ int main() {
             exit(EXIT_FAILURE);
         }
 
-        printf("Message sent.\n");
+        printf("%s sent.\n", buf);
 
         // Throttling send rate
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 30));
