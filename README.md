@@ -6,10 +6,13 @@ This project is a simple electron app that displays a gauge. It was bootstrapped
 
 In the project directory, you can run:
 
+### `yarn install`
+
+Run this first to install packages
+
 ### `yarn dev`
 
 Runs both the React app and Electron in development mode concurrently (prefered for quick-start).
-
 
 ### `yarn start`
 
