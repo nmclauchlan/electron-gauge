@@ -3,6 +3,8 @@
 #include <ws2tcpip.h>
 #include <chrono>
 #include <thread>
+#include <cstdlib>
+#include <ctime>
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -15,7 +17,7 @@ int main() {
     SOCKET s;
     struct sockaddr_in server;
     char buf[BUFLEN];
-    char message[] = "23,45";
+    int knots = 23, altitude = 45; // Starting values
 
     // Initialize winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -43,14 +45,22 @@ int main() {
     }
 
     while (true) {
+
+        // Randoming knots/altitude data
+        knots += rand() % 2 ? 1 : -1;
+        altitude += rand() % 2 ? 1 : -1;
+
+        // Format the message
+        sprintf(buf, "%d,%d", knots, altitude);
+
         // Send the message to server
-        if (sendto(s, message, strlen(message), 0, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
+        if (sendto(s, buf, strlen(buf), 0, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
         {
             printf("sendto() failed with error code : %d", WSAGetLastError());
             exit(EXIT_FAILURE);
         }
 
-        printf("Message sent.");
+        printf("Message sent.\n");
 
         // Throttling send rate
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
