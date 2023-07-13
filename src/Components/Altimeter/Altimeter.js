@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from 'react';
 export default Altimeter
 
 function Altimeter() {
-    const maxAltitude = 200;
+    const maxAltitude = 656; // 200 metres
     const [altitude, setAltitude] = useState(0);
     const [messagesPerSecond, setMessagesPerSecond] = useState(0);
     const messageCountRef = useRef(0);
@@ -18,7 +18,8 @@ function Altimeter() {
             if (message == null) {
                 console.warn('Null altitude received, ignoring.')
             } else {
-                setAltitude(message);
+                var altitudeInFeet =  message * 3.28084; // 1 metre = 3.28084 feet 
+                setAltitude(Math.trunc(altitudeInFeet)); // Rounding to nearest foot
                 messageCountRef.current += 1;
             }
           });

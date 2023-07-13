@@ -24,7 +24,7 @@ int main() {
     SOCKET s;
     struct sockaddr_in server;
     char buf[BUFLEN];
-    int speed = 200, altitude = 1000; // Starting values
+    int speed = 50, altitude = 100; // Starting values
 
     // Initialize winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
