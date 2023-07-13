@@ -11,6 +11,7 @@
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 3000
 #define BUFLEN 512
+#define SEND_RATE 30
 
 int main() {
     WSADATA wsa;
@@ -63,7 +64,7 @@ int main() {
         printf("Message sent.\n");
 
         // Throttling send rate
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 30));
     }
 
     closesocket(s);
