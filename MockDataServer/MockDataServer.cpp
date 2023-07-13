@@ -15,7 +15,7 @@ int main() {
     SOCKET s;
     struct sockaddr_in server;
     char buf[BUFLEN];
-    char message[] = "Hello from client!";
+    char message[] = "23,45";
 
     // Initialize winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -50,8 +50,10 @@ int main() {
             exit(EXIT_FAILURE);
         }
 
-        // Wait for one second
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        printf("Message sent.");
+
+        // Throttling send rate
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
     closesocket(s);
