@@ -11,13 +11,13 @@ function Gauge({ value, maxValue, label }) {
             stroke="#000"
             strokeWidth="7" />
             <path d="M5,110 a100,100 0 0,1 200, 0" fill="#EEE2DE" 
-            stroke="#000" stroke-dasharray="5 1"
+            stroke="#000" strokeDasharray="5 1"
             strokeWidth="7" />‍
           </svg>
-          <div class="indicator" style={
+          <div className="indicator" style={
             { transform: 'rotate(' + (value / maxValue) * 180 + 'deg)'}
             }></div>
-          <div class="label">{value} / {label}</div>
+          <div className="label">{value} / {label}</div>
       </div>
     );
   }

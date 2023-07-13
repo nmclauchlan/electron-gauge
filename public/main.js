@@ -14,17 +14,11 @@ function startListening() {
   // Setup the message event handler
    server.on('message', (msg, rinfo) => {
      console.log(`Server received: ${msg} from ${rinfo.address}:${rinfo.port}`);
-     var packet = ProcessMessage(msg.toString());
+     var packet = ParseMessage(msg.toString());
 
      speedometerWindow.webContents.send('speed', packet.knots);
      altimeterWindow.webContents.send('altitude', packet.altitude);
    });
-
-
-  // server.on('message', (msg, rinfo) => {
-  //   console.log(`Server received: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  //   mainWindow.webContents.send('udp message', msg.toString()); // Send22
-  // });
 
   // Setup the listening event handler
   server.on('listening', () => {
@@ -36,45 +30,17 @@ function startListening() {
   server.bind(3000);
 }
 
-let mainWindow = null;
 let altimeterWindow = null;
 let speedometerWindow = null;
 
 function createWindows() {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    center: true,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js')
-    }
-  });
   altimeterWindow = new BrowserWindow({
-    width: 300,
-    height: 300,
+    width: 500,
+    height: 500,
     x: 300,
     y: 300,
+    resizable: true,
     title: 'Altimeter',
-    closable: false,
-    parent: mainWindow,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      enableRemoteModule: false,
-      preload: path.join(__dirname, 'preload.js')
-    }
-  });
-  speedometerWindow = new BrowserWindow({
-    width: 300,
-    height: 300,
-    parent: mainWindow,
-    x: 300,
-    y: 700,
-    title: 'Speedometer',
-    closable: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -83,15 +49,37 @@ function createWindows() {
     }
   });
 
-  mainWindow.loadURL('http://localhost:3000');
+  speedometerWindow = new BrowserWindow({
+    width: 500,
+    height: 500,
+    x: 800,
+    y: 300,
+    resizable: false,
+    title: 'Speedometer',
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  });
+
   altimeterWindow.loadURL('http://localhost:3000/altimeter');
   speedometerWindow.loadURL('http://localhost:3000/speedometer');
 
-  // While we're developing
-  mainWindow.webContents.openDevTools()
+  //altimeterWindow.webContents.openDevTools()
+
+  // Closing any of the windows should end the application
+  altimeterWindow.on('close', () => {
+    stop();
+  });
+  speedometerWindow.on('close', () => {
+    stop();
+  })
+
 }
 
-function ProcessMessage(message) {
+function ParseMessage(message) {
   var splitMessage = message.split(',');
   if (splitMessage.length != 2) {
     console.error('Invalid data update: ', message);
@@ -113,13 +101,13 @@ function start() {
   createWindows();
 }
 
+function stop() {
+  server.close();
+  app.quit()
+}
+
 app.whenReady().then(start)
 
 app.on('window-all-closed', () => {
-  server.close();
-  app.quit()
-})
-
-app.on('activate', () => {
-  start()
+  stop();
 });

@@ -1,3 +1,10 @@
-.indicator {
-    background: #B31312;
+.metric {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 0.9em;
+    text-align: right;
+    margin: 0 20px 0 20px;
 }

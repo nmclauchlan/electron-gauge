@@ -20,9 +20,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "wait-on tcp:3000 && electron .",
+    "electron-dev": "wait-on http://127.0.0.1:3000 && electron .",
     "dev": "concurrently -k \"yarn start\" \"yarn electron-dev\""
   },
   "eslintConfig": {
