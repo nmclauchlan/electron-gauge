@@ -43,4 +43,4 @@ Visual Studio users should be able to open the MockDataServer folder and build t
 
 The server is now running and sending data. The Electron app should be able to receive and display this data.
 
-![alt text](https://github.com/nmclauchlan/electron-gauge/demo.gif "Demonstration of successful execution")
+![alt text](https://github.com/nmclauchlan/electron-gauge/raw/main/demo.gif "Demonstration of successful execution")
